@@ -160,35 +160,42 @@ INSERT INTO top_compositions (artist_id, title) VALUES
     (25, 'Electric Counterpoint');
         
 
-CREATE TABLE birth_city (id INTEGER PRIMARY KEY AUTOINCREMENT, artist_id INTEGER, city TEXT, state TEXT, country TEXT);
+CREATE TABLE bio_info (
+  artist_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  city TEXT,
+  state TEXT,
+  country TEXT,
+  birth_date TEXT,
+  death_date TEXT
+);
 
-INSERT INTO birth_city (artist_id, city, state, country)
+INSERT INTO bio_info (artist_id, city, state, country, birth_date, death_date)
 VALUES 
-    (1, 'Liberchies', NULL, 'BEL'),
-    (2, 'Indianapolis', 'IN', 'USA'),
-    (3, 'New Brunswick', 'NJ', 'USA'),
-    (4, 'Bonham', 'TX', 'USA'),
-    (5, 'Lee''s Summit', 'MO', 'USA'),
-    (6, 'Pittsburgh', 'PA', 'USA'),
-    (7, 'Buffalo', 'NY', 'USA'),
-    (8, 'St. Louis', 'MO', 'USA'),
-    (9, 'Dayton', 'OH', 'USA'),
-    (10, 'Detroit', 'MI', 'USA'),
-    (11, 'Farmersville', 'TX', 'USA'),
-    (12, 'Muskogee', 'OK', 'USA'),
-    (13, 'Greensboro', 'NC', 'USA'),
-    (14, 'Seattle', 'WA', 'USA'),
-    (15, 'Englewood Cliffs', 'NJ', 'USA'),
-    (16, 'Baltimore', 'MD', 'USA'),
-    (17, 'Jersey City', 'NJ', 'USA'),
-    (18, 'Torrance', 'CA', 'USA'),
-    (19, 'Doncaster', 'SYK', 'ENG'),
-    (20, 'Alsace', NULL, 'FRA'),
-    (21, 'Santa Rosa', 'CA', 'USA'),
-    (22, 'Philadelphia', 'PA', 'USA'),
-    (23, 'Boston', 'MA', 'USA'),
-    (24, 'Judenburg', NULL, 'AUT'),
-    (25, 'Albany', 'GA', 'USA');
+  (1, 'Liberchies', 'Wallonia', 'Belgium', '01/23/1910', '05/16/1953'),
+  (2, 'Indianapolis', 'IN', 'USA', '03/06/1923', '06/15/1968'),
+  (3, 'New Brunswick', 'NJ', 'USA', '01/13/1929', '05/23/1994'),
+  (4, 'Bonham', 'TX', 'USA', '07/29/1916', '03/02/1942'),
+  (5, 'Lee''s Summit', 'MO', 'USA', '08/12/1954', 'present'),
+  (6, 'Pittsburgh', 'PA', 'USA', '03/22/1943', 'present'),
+  (7, 'Buffalo', 'NY', 'USA', '12/04/1930', '12/10/2013'),
+  (8, 'St. Louis', 'MO', 'USA', '06/06/1935', '01/31/1979'),
+  (9, 'Dayton', 'OH', 'USA', '12/26/1951', 'present'),
+  (10, 'Detroit', 'MI', 'USA', '07/31/1931', 'present'),
+  (11, 'Farmersville', 'TX', 'USA', '08/04/1921', '03/28/2010'),
+  (12, 'Muskogee', 'OK', 'USA', '10/17/1923', '05/06/2004'),
+  (13, 'Greensboro', 'NC', 'USA', '06/07/1921', '07/25/1998'),
+  (14, 'Seattle', 'WA', 'USA', '11/27/1942', '09/18/1970'),
+  (15, 'Englewood Cliffs', 'NJ', 'USA', '09/18/1957', '05/04/1990'),
+  (16, 'Baltimore', 'MD', 'USA', '03/18/1951', 'present'),
+  (17, 'Jersey City', 'NJ', 'USA', '07/22/1954', 'present'),
+  (18, 'Torrence', 'CA', 'USA', '03/02/1948', 'present'),
+  (19, 'Doncaster', 'Yorkshire', 'England', '01/04/1942', 'present'),
+  (20, 'Alsace', 'France', 'France', '09/04/1966', 'present'),
+  (21, 'Santa Rosa', 'CA', 'USA', '12/25/1987', 'present'),
+(22, 'Philadelphia', 'PA', 'USA', '10/28/1970', 'present'),
+  (23, 'Boston', 'MA', 'USA', '10/16/1980', 'present'),
+  (24, 'Judenburg', 'Austria', 'Austria', '03/02/1965', 'present'),
+  (25, 'Albany', 'GA', 'USA', '11/08/1963', 'present');
     
 CREATE TABLE dream_collabs (
     id INTEGER PRIMARY KEY,
@@ -224,16 +231,22 @@ INSERT INTO dream_collabs (id, artist1_id, artist2_id) VALUES
 (25,25,24);
     
 /* Top jazz guitarists and their birth country*/ 
-
-SELECT jazz_guitarists.name AS top_25_jazz_guitarists, birth_city.country AS birth_country
+SELECT jazz_guitarists.name AS top_25_jazz_guitarists, bio_info.country AS birth_country
 FROM jazz_guitarists
-JOIN birth_city ON jazz_guitarists.id = birth_city.artist_id;
+JOIN bio_info ON jazz_guitarists.id = bio_info.artist_id;
 
 /* My favorite guitarist and his top 5 compositions*/ 
-
 SELECT jazz_guitarists.name AS artist_name, top_compositions.title AS top_compositions
 FROM jazz_guitarists
 JOIN top_compositions ON jazz_guitarists.id = top_compositions.artist_id 
 WHERE jazz_guitarists.name = "Larry Carlton";
 
-/* My dream list of jazz guitarist collaborations.*/
+/* My dream jaz guitarist collaborations.*/
+SELECT a.name AS artist_1, b.name AS artist_2 FROM dream_collabs
+JOIN jazz_guitarists a
+    ON dream_collabs.artist1_id = a.id
+JOIN jazz_guitarists b
+    ON dream_collabs.artist2_id = b.id;
+    
+SELECT * FROM bio_info;
+    
