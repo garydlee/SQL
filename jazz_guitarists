@@ -250,3 +250,9 @@ JOIN jazz_guitarists b
     
 SELECT * FROM bio_info;
     
+/* How many of these guitarist are still alive as of 2023?*/
+
+SELECT name, birth_date, death_date
+FROM jazz_guitarists
+JOIN bio_info ON jazz_guitarists.id = bio_info.artist_id
+WHERE death_date = "present"
