@@ -1,0 +1,45 @@
+-- #1. Who are the top 10 artists based on popularity?
+
+SELECT artist_name, popularity
+FROM bit_db.SpotifyData
+ORDER BY popularity DESC
+LIMIT 10;
+
+-- #2. What is the average tempo of all 50 songs?
+
+SELECT avg(tempo)
+FROM bit_db.SpotifyData
+ORDER BY tempo ASC
+LIMIT 10;
+
+-- #3. What is the average song length in mineutes of the 10 most deanceable songs?
+
+WITH top_10_danceability AS (
+    SELECT SpotifyData.track_name AS song, popularity, danceability, duration_ms
+    FROM SpotifyData
+    GROUP BY song
+    ORDER BY danceability DESC
+    LIMIT 10)
+    
+SELECT round(avg(duration_ms)/60000,2) avg_song_length_min
+FROM top_10_danceability;
+
+-- #4. Which artists had 2 or more tracks in the top 50?
+
+SELECT artist_name, count(track_name) as num_tracks
+FROM bit_db.spotifydata
+GROUP BY artist_name
+HAVING num_tracks <> 1
+ORDER BY num_tracks DESC;
+
+-- #6. What is the average popularity rating of songs that are in a minor key?
+
+WITH minor_songs AS (
+    SELECT *
+    FROM SpotifyData
+    WHERE song_mode = 0
+)
+    
+SELECT round(avg(popularity),2)  avg_popularity
+FROM minor_songs;
+
