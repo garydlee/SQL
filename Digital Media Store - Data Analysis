@@ -1,3 +1,5 @@
+--In this SQL code I query a digital media store database. It includes tables for artists, albums, media tracks, invoices, and customers.
+
 --1. Show Customers (their full names, customer ID, and country) who are not in the US.
 SELECT customerid, firstname, lastname, country
 FROM customers
