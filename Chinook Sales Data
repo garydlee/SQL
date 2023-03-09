@@ -93,3 +93,35 @@ JOIN employees e ON c.supportrepid = e.employeeid
 WHERE i.invoicedate LIKE '%2009%'
 GROUP BY sales_agent
 ORDER BY total_sales DESC;
+
+--15. What are the total sales of all artists?
+SELECT round(sum(total),2) AS total_artist_sales
+FROM invoices;
+
+--16. Which genre generated the most sales in 2009?
+SELECT g.name, round(sum(i.total),2) AS top_sales_2009
+FROM invoices i
+JOIN invoice_items ii ON i.invoiceid = ii.invoiceid
+JOIN tracks t ON ii.trackid = t.trackid
+JOIN genres g ON t.genreid = g.genreid
+WHERE i.invoicedate LIKE '%2009%'
+GROUP BY g.name
+ORDER BY top_sales_2009 DESC
+LIMIT 1;
+
+--17. What are the total sales in each country?
+SELECT billingcountry AS country, round(sum(total),2) AS total_sales
+FROM invoices
+GROUP BY billingcountry
+ORDER BY total DESC;
+
+--18. Provide the full name and email of all customers and most recent invoice date.
+SELECT firstname, lastname, email, invoicedate
+FROM customers
+JOIN invoices ON customers.customerid = invoices.customerid
+GROUP BY firstname
+ORDER BY invoicedate DESC;
+
+
+
+
