@@ -1,30 +1,35 @@
+/* This query gives the total 9x12 page count for the whole orchestra. 
+
+Note: 
+• Strings share music stands: vlns 30 players (15 stands), vlas 12 players (6 stands), vc_bs 18 players (9 stands).
+• Cellos and Bass read combined part.
+*/
+
 WITH section_totals_CTE AS (
-
--- This CTE provides totals by cue_id for each section of the orchestra: woodwinds, horns, percussion, strings, and tacets. 
---    Strings share music stands:
---      • vlns 30 players (15 stands)
---      • vlas 12 players (6 stands)
---      • vc_bs 18 players (9 stands)
-
     SELECT cue_id,
            fl1 + fl2 + ob1 + ob2 + cl1 + cl2 + bsn1 + bsn2 AS ww,
            hn1 + hn2 + hn3 + hn4 + hn5 + hn6 + tpt1 + tpt2 + tpt3 + tbn1 + tbn2 + tbn2 + tba AS horns,
-           timp + perc + pno AS perc,
+           timp + perc * 2 + pno AS perc,
            sum(vln * 15) AS vlns,
-           sum(vla * 12) AS vlas,
+           sum(vla * 6) AS vlas,
            sum(vc_bs * 9) AS cellos_basses,
            tacets
       FROM parts_9x12
      GROUP BY cue_id
 )
--- This section queries within the CTE to show sums of each section of all cues.
 
-SELECT sum(ww),
-       sum(horns),
-       sum(perc),
-       sum(vlns),
-       sum(vlas),
-       sum(cellos_basses),
-       sum(tacets) 
+SELECT sum(ww) + sum(horns) + sum(perc) + sum(vlns) + sum(vlas) + sum(cellos_basses) + sum(tacets) AS [Total 9x12 Pages]
   FROM section_totals_CTE;
-  
+
+/*This query provides the total for all printed score pages organized by paper size. Here's the breakdown of the scores:    
+• conductor 11x17 buff x 1
+• library 11x17 reg x 1
+• editor 11x17 reg x 1
+• booth 11x17 reg x 4
+• mixer 8.5x14 reg x 1
+*/
+
+SELECT sum(score) AS [buff 11x17],
+       sum(score) * 6 AS [reg 11x17],
+       sum(score) * 1 AS [mixer 8.5x14]
+  FROM parts_9x12;
