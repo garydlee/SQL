@@ -1,5 +1,9 @@
-/* This query gives the total 9x12 page count for the whole orchestra. 
+/* I have the privilege to work with a company that prepares the sheet music for TV and film productions. This SQL explores data
+from the orchestra recording sessions for the movie, Elemental (Pixar).
+/*
 
+
+/* This query gives the total 9x12 part page count for the whole orchestra. 
 Note: 
 • Strings share music stands: vlns 30 players (15 stands), vlas 12 players (6 stands), vc_bs 18 players (9 stands).
 • Cellos and Bass read combined part.
