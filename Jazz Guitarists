@@ -1,3 +1,5 @@
+/* In this SQL I query a multi-table dataset of famous jazz guitarists, top compositions, and biographical information */
+
 /* Create table about the people and what they do here */
 
 CREATE TABLE jazz_guitarists (
