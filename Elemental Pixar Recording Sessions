@@ -15,10 +15,10 @@ WITH section_totals_CTE AS (
     SELECT cue_id,
            fl1 + fl2 + ob1 + ob2 + cl1 + cl2 + bsn1 + bsn2 AS ww,
            hn1 + hn2 + hn3 + hn4 + hn5 + hn6 + tpt1 + tpt2 + tpt3 + tbn1 + tbn2 + tbn2 + tba AS horns,
-           timp + perc * 2 + pno AS perc,
-           sum(vln * 15) AS vlns,
-           sum(vla * 6) AS vlas,
-           sum(vc_bs * 9) AS cellos_basses,
+           timp + perc1 + perc2 + pno AS perc,
+           sum(vln_15 * 15) AS vlns,
+           sum(vla_6 * 6) AS vlas,
+           sum(vc_bs_9 * 9) AS cellos_basses,
            tacets
       FROM parts_9x12
      GROUP BY cue_id
@@ -26,7 +26,7 @@ WITH section_totals_CTE AS (
 
 SELECT sum(ww) + sum(horns) + sum(perc) + sum(vlns) + sum(vlas) + sum(cellos_basses) + sum(tacets) AS [Total 9x12 Pages]
   FROM section_totals_CTE;
-
+  
 /*This query provides the total for all printed score pages organized by paper size. Here's the breakdown of the scores:    
 • conductor 11x17 buff x 1
 • library 11x17 reg x 1
