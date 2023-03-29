@@ -1,9 +1,11 @@
-/* I have the privilege to work with a company that prepares the sheet music for TV and film productions. This SQL explores data
+/* I work freelance with a company that prepares the sheet music for TV and film productions. This SQL explores data
 from the orchestra recording sessions for the movie, Elemental (Pixar).
 /*
 
 
-/* This query gives the total 9x12 part page count for the whole orchestra. 
+/* This query gives the total 9x12 part page count for the whole orchestra. Basically this mean how many pages 
+total were printed as sheet music for the orchestra.
+
 Note: 
 • Strings share music stands: vlns 30 players (15 stands), vlas 12 players (6 stands), vc_bs 18 players (9 stands).
 • Cellos and Bass read combined part.
@@ -37,3 +39,9 @@ SELECT sum(score) AS [buff 11x17],
        sum(score) * 6 AS [reg 11x17],
        sum(score) * 1 AS [mixer 8.5x14]
   FROM parts_9x12;
+
+/* This code counts the number of tacet sheets for each cue */
+
+SELECT cue_id, SUM(CASE WHEN pno = '0' THEN 1 ELSE 0 END + CASE WHEN fl1 = '0' THEN 1 ELSE 0 END + CASE WHEN fl2 = '0' THEN 1 ELSE 0 END + CASE WHEN ob1 = '0' THEN 1 ELSE 0 END + CASE WHEN ob2 = '0' THEN 1 ELSE 0 END + CASE WHEN cl1 = '0' THEN 1 ELSE 0 END + CASE WHEN cl2 = '0' THEN 1 ELSE 0 END + CASE WHEN bsn1 = '0' THEN 1 ELSE 0 END + CASE WHEN bsn2 = '0' THEN 1 ELSE 0 END + CASE WHEN hn1 = '0' THEN 1 ELSE 0 END + CASE WHEN hn2 = '0' THEN 1 ELSE 0 END + CASE WHEN hn3 = '0' THEN 1 ELSE 0 END + CASE WHEN hn4 = '0' THEN 1 ELSE 0 END + CASE WHEN hn5 = '0' THEN 1 ELSE 0 END + CASE WHEN hn6 = '0' THEN 1 ELSE 0 END + CASE WHEN tpt1 = '0' THEN 1 ELSE 0 END + CASE WHEN tpt2 = '0' THEN 1 ELSE 0 END + CASE WHEN tpt3 = '0' THEN 1 ELSE 0 END + CASE WHEN tbn1 = '0' THEN 1 ELSE 0 END + CASE WHEN tbn2 = '0' THEN 1 ELSE 0 END + CASE WHEN tbn3 = '0' THEN 1 ELSE 0 END + CASE WHEN tba = '0' THEN 1 ELSE 0 END + CASE WHEN timp = '0' THEN 1 ELSE 0 END + CASE WHEN perc = '0' THEN 1 ELSE 0 END + CASE WHEN vln = '0' THEN 1 ELSE 0 END + CASE WHEN vla = '0' THEN 1 ELSE 0 END + CASE WHEN vc_bs = '0' THEN 1 ELSE 0 END) AS tacet_count
+  FROM elemental.parts_9x12
+  GROUP BY cue_id;
